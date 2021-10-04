@@ -1,9 +1,7 @@
 
-
 package ChatBot;
 
 import java.util.Scanner;
-
 
 public class ChatBot {
     public static void main(String[] args) {
@@ -24,6 +22,22 @@ public class ChatBot {
         int num = in.nextInt();
         for(int i = 0;i<num+1;i++){
            System.out.println(i + " !");
+        }
+        System.out.println("Let's test your programming knowledge.");
+        System.out.println("How old is Artem?");
+        System.out.println("1. 17");
+        System.out.println("2. 18");
+        System.out.println("3. 19");
+        System.out.println("4. 20");
+        int great = 0;
+        while (true){
+            int years = in.nextInt();
+            if (years == 2){
+                System.out.println("Great, you right.");
+                break;
+            }
+            System.out.println("Please, try again");
+
         }
 
 
