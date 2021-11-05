@@ -4,9 +4,9 @@ import java.util.*;
 
 class Game{
     private String[] field = new String[]{"_","_","_","_","_","_","_","_","_"};
-    private final int[][] win_situation = new int[][]{{0,1,2},{3,4,5},{6,7,8},{0,4,8},{2,4,6}};
+    private final int[][] winSituation = new int[][]{{0,1,2},{3,4,5},{6,7,8},{0,4,8},{2,4,6}};
     private final Map<String,Integer> coordinate = new HashMap<String, Integer>();
-    private String player_win = "";
+    private String playerWin = "";
 
     public void create_dictionary(){
         coordinate.put("1 1", 0);
@@ -54,22 +54,23 @@ class Game{
         System.out.println(getField());
     }
 
-    public void examination(){
-         if (shadow_check().size()>1 || number_of_sivols()){
-             System.out.println("Impossible");
-             System.exit(0);
-         }
-         else if(check_emptiness()==0){
-             System.out.println("Draw");
-             System.exit(0);
-         }
-         else if(player_win.length()==1){
-             System.out.println(player_win + " Win");
-             System.exit(0);
-         }
+    public boolean examination(){
+        if (shadowCheck().size()>1 || numberOfSivols()){
+            System.out.println("Impossible");
+            return false;
+        }
+        else if(checkEmptines()==0){
+            System.out.println("Draw");
+            return false;
+        }
+        else if(playerWin.length()==1){
+            System.out.println(playerWin + " Win");
+            return false;
+        }
+        return true;
     }
 
-    private int check_emptiness(){
+    private int checkEmptines(){
         int numb = 0;
         for (String i: field){
             if(Objects.equals(i, "_")){
@@ -79,33 +80,34 @@ class Game{
         return numb;
     }
 
-    private boolean number_of_sivols(){
-        int number_X = 0;
-        int number_O = 0;
+    private boolean numberOfSivols(){
+        int numberX = 0;
+        int numberO = 0;
         for (String s : field) {
             if (Objects.equals(s, "X")) {
-                number_X += 1;
+                numberX += 1;
             } else if (Objects.equals(s, "O")) {
-                number_O += 1;
+                numberO += 1;
             }
         }
-        return Math.abs(number_O - number_X) > 1;
+        return Math.abs(numberO - numberX) > 1;
     }
 
-    private ArrayList<String> shadow_check(){
+
+    private ArrayList<String> shadowCheck(){
         String[] simbols = new String[]{"X","O"};
-        ArrayList<String> win_simbols = new ArrayList<>();
-        for (int[] ints : this.win_situation) {
+        ArrayList<String> winSimbols = new ArrayList<>();
+        for (int[] ints : this.winSituation) {
             for (String simbol : simbols) {
                 if (Objects.equals(field[ints[0]], simbol) && Objects.equals(field[ints[1]], simbol) && Objects.equals(field[ints[2]], simbol)) {
-                    win_simbols.add(simbol);
+                    winSimbols.add(simbol);
                 }
             }
         }
-        if(win_simbols.size()==1){
-            player_win = win_simbols.get(0);
+        if(winSimbols.size()==1){
+            playerWin = winSimbols.get(0);
         }
-        return win_simbols;
+        return winSimbols;
     }
 }
 
@@ -115,9 +117,10 @@ public class tictactoe {
         Game person = new Game();
         person.create_dictionary();
         Scanner input = new Scanner(System.in);
-        while (true){
+        boolean situation = true;
+        while (situation){
             person.setField(input.nextLine());
-            person.examination();
+            situation = person.examination();
         }
     }
 }
